@@ -8,30 +8,13 @@
 }
 
 body {
-    background: @background;
     font-family: 'Roboto', sans-serif;
+    background: @background;
 }
 
-.heading {
-    font-size: 50px;
-    text-align: center;
-    cursor: pointer;
-    transition: color .3s;
-
-    &:hover {
-        color: rebeccapurple;
-    }
-}
-
-.time {
-    font-size: 30px;
-    text-align: center;
-
-    @media @noMobile {
-        font-size: 50px;
-    }
-
-    @media @desktop {
-        font-size: 70px;
-    }
+.canvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    background: @backgroundCanvas;
 }

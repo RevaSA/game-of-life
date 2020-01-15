@@ -1,3 +1,3 @@
-import UpdateTime from './UpdateTime';
+import Game from './Game';
 
-new UpdateTime({ selector: '[data-time]' });
+document.addEventListener("DOMContentLoaded", () => new Game({ selector: '#canvas' }));
