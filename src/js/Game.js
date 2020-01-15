@@ -5,6 +5,7 @@ class Game {
         this.cache(settings);
         this.events();
         this.onResize();
+        requestAnimationFrame(this.loop.bind(this));
     }
 
     cache(settings) {
@@ -32,6 +33,11 @@ class Game {
             x: ev.clientX,
             y: ev.clientY
         });
+    }
+
+    loop() {
+        this.field.draw();
+        requestAnimationFrame(this.loop.bind(this));
     }
 }
 

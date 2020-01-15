@@ -4,7 +4,6 @@ class Field {
         this.cursor = null;
         this.cells = [];
         this.updateSettings(settings);
-        requestAnimationFrame(this.loop.bind(this));
     }
 
     updateSettings(settings) {
@@ -44,9 +43,7 @@ class Field {
         this.cursor = cursor;
     }
 
-    loop() {
-        // TODO: move to Game
-
+    draw() {
         this.cells.forEach((row, i) => {
             row.forEach((cell, j) => {
                 this.drawCell(i, j, 'active');
@@ -54,7 +51,6 @@ class Field {
         });
 
         this.drawHoverCell();
-        requestAnimationFrame(this.loop.bind(this));
     }
 
     drawCell(i, j, color = 'default') {
