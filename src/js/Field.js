@@ -25,10 +25,12 @@ class Field {
     }
 
     updateSize(width, height) {
-        this.countCol = Math.floor(width / this.settings.size.cell);
-        this.countRow = Math.floor(height / this.settings.size.cell);
-        this.w = this.countCol * this.settings.size.cell;
-        this.h = this.countRow * this.settings.size.cell;
+        const sizeCell = this.settings.size.cell;
+
+        this.countCol = Math.floor(width / sizeCell);
+        this.countRow = Math.floor(height / sizeCell);
+        this.w = this.countCol * sizeCell;
+        this.h = this.countRow * sizeCell;
         this.x = Math.floor((width - this.w) / 2);
         this.y = Math.floor((height - this.h) / 2);
         this.updateCells();
@@ -53,7 +55,7 @@ class Field {
     drawCells() {
         this.cells.forEach((row, i) => {
             row.forEach((cell, j) => {
-                this.drawCell(i, j, 'active');
+                this.drawCell(i, j, this.settings.color.active);
             });
         });
     }
@@ -63,20 +65,21 @@ class Field {
             return;
         }
 
+        const sizeCell = this.settings.size.cell;
         const x = Math.max(Math.min(this.cursor.x - this.x, this.w), 0);
         const y = Math.max(Math.min(this.cursor.y - this.y, this.h), 0);
-        const i = Math.floor(Math.max(y - 1, 0) / this.settings.size.cell);
-        const j = Math.floor(Math.max(x - 1, 0) / this.settings.size.cell);
+        const i = Math.floor(Math.max(y - 1, 0) / sizeCell);
+        const j = Math.floor(Math.max(x - 1, 0) / sizeCell);
 
-        this.drawCell(i, j, 'hover');
+        this.drawCell(i, j, this.settings.color.hover);
     }
 
     drawBorders() {
+        let i, j, x, y;
+
         if (this.settings.size.cell < this.settings.size.cellWithBorder) {
             return;
         }
-
-        let i, j, x, y;
 
         for (i = 0; i <= this.countRow; i ++) {
             y = this.y + i * this.settings.size.cell;
@@ -89,13 +92,13 @@ class Field {
         }
     }
 
-    drawCell(i, j, color = 'default') {
+    drawCell(i, j, color) {
         const ctx = this.ctx;
         const size = this.settings.size.cell;
         const x = this.x + j * size;
         const y = this.y + i * size;
 
-        ctx.fillStyle = this.settings.color[color];
+        ctx.fillStyle = color || this.settings.color.default;
         ctx.fillRect(x, y, size, size);
     }
 
