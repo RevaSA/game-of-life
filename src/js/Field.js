@@ -5,8 +5,6 @@ class Field {
         this.cells = [];
         this.updateSettings(settings);
         requestAnimationFrame(this.loop.bind(this));
-
-        console.log(ctx);
     }
 
     updateSettings(settings) {
