@@ -27,6 +27,7 @@ class Game {
 
     events() {
         window.addEventListener('resize', this.onResize.bind(this));
+        this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
     }
 
     onResize() {
@@ -35,6 +36,13 @@ class Game {
         this.canvas.width = this.w;
         this.canvas.height = this.h;
         this.field.updateSize(this.w, this.h);
+    }
+
+    onMouseMove(ev) {
+        this.field.updateCursorPosition({
+            x: ev.clientX,
+            y: ev.clientY
+        });
     }
 }
 
