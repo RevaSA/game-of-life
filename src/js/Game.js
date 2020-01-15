@@ -8,18 +8,7 @@ class Game {
     }
 
     cache(settings) {
-        const defaultSettings = {
-            size: {
-                cell: 50
-            },
-            color: {
-                default: '#000',
-                active: 'firebrick',
-                border: 'white',
-            }
-        };
-
-        this.settings = Object.assign({}, defaultSettings, settings);
+        this.settings = Object.assign({}, settings);
         this.canvas = document.querySelector(this.settings.selector);
         this.ctx = this.canvas.getContext('2d');
         this.field = new Field(this.ctx);
@@ -46,4 +35,4 @@ class Game {
     }
 }
 
-export default Game
+export default Game;

@@ -5,12 +5,15 @@ class Field {
         this.cells = [];
         this.updateSettings(settings);
         requestAnimationFrame(this.loop.bind(this));
+
+        console.log(ctx);
     }
 
     updateSettings(settings) {
         const defaultSettings = {
             size: {
-                cell: 50
+                cell: 50,
+                cellWithBorder: 20,
             },
             color: {
                 default: 'black',
@@ -37,8 +40,6 @@ class Field {
         this.cells = Array(this.countRow)
             .fill(null)
             .map(row => Array(this.countCol).fill(0));
-
-        console.log(this.cells)
     }
 
     updateCursorPosition(cursor) {
@@ -46,6 +47,8 @@ class Field {
     }
 
     loop() {
+        // TODO: move to Game
+
         this.cells.forEach((row, i) => {
             row.forEach((cell, j) => {
                 this.drawCell(i, j, 'active');
@@ -66,7 +69,7 @@ class Field {
         ctx.fillStyle = this.settings.color[color];
         ctx.fillRect(x, y, size, size);
 
-        if (size > 10) {
+        if (size >= this.settings.size.cellWithBorder) {
             ctx.strokeRect(x + 0.5, y + 0.5, size - 1, size - 1);
         }
     }
@@ -84,6 +87,5 @@ class Field {
         this.drawCell(i, j, 'hover');
     }
 }
-
 
 export default Field;
