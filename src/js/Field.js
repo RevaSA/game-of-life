@@ -11,6 +11,7 @@ class Field {
             size: {
                 cell: 50,
                 cellWithBorder: 20,
+                border: 2
             },
             color: {
                 default: 'black',
@@ -44,28 +45,17 @@ class Field {
     }
 
     draw() {
+        this.drawCells();
+        this.drawHoverCell();
+        this.drawBorders();
+    }
+
+    drawCells() {
         this.cells.forEach((row, i) => {
             row.forEach((cell, j) => {
                 this.drawCell(i, j, 'active');
             });
         });
-
-        this.drawHoverCell();
-    }
-
-    drawCell(i, j, color = 'default') {
-        const ctx = this.ctx;
-        const size = this.settings.size.cell;
-        const x = this.x + j * size;
-        const y = this.y + i * size;
-
-        ctx.strokeStyle = this.settings.color.border;
-        ctx.fillStyle = this.settings.color[color];
-        ctx.fillRect(x, y, size, size);
-
-        if (size >= this.settings.size.cellWithBorder) {
-            ctx.strokeRect(x + 0.5, y + 0.5, size - 1, size - 1);
-        }
     }
 
     drawHoverCell() {
@@ -79,6 +69,45 @@ class Field {
         const j = Math.floor(Math.max(x - 1, 0) / this.settings.size.cell);
 
         this.drawCell(i, j, 'hover');
+    }
+
+    drawBorders() {
+        if (this.settings.size.cell < this.settings.size.cellWithBorder) {
+            return;
+        }
+
+        let i, j, x, y;
+
+        for (i = 0; i <= this.countRow; i ++) {
+            y = this.y + i * this.settings.size.cell;
+            this.drawLine(this.x, y, this.x + this.w, y);
+        }
+
+        for (j = 0; j <= this.countCol; j ++) {
+            x = this.x + j * this.settings.size.cell;
+            this.drawLine(x, this.y, x, this.y + this.h);
+        }
+    }
+
+    drawCell(i, j, color = 'default') {
+        const ctx = this.ctx;
+        const size = this.settings.size.cell;
+        const x = this.x + j * size;
+        const y = this.y + i * size;
+
+        ctx.fillStyle = this.settings.color[color];
+        ctx.fillRect(x, y, size, size);
+    }
+
+    drawLine(x1, y1, x2, y2) {
+        const ctx = this.ctx;
+
+        ctx.beginPath();
+        ctx.strokeStyle = this.settings.color.border;
+        ctx.lineWidth = this.settings.size.border;
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
     }
 }
 
