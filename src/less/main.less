@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900');
+@import (reference) './_media.less';
+@import (reference) './_vars.less';
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background: @background;
+    font-family: 'Roboto', sans-serif;
+}
+
+.heading {
+    font-size: 50px;
+    text-align: center;
+    cursor: pointer;
+    transition: color .3s;
+
+    &:hover {
+        color: rebeccapurple;
+    }
+}
+
+.time {
+    font-size: 30px;
+    text-align: center;
+
+    @media @noMobile {
+        font-size: 50px;
+    }
+
+    @media @desktop {
+        font-size: 70px;
+    }
+}

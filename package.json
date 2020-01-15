@@ -1,0 +1,28 @@
+{
+    "name": "game-of-life",
+    "version": "1.0.0",
+    "description": "Game of Life",
+    "main": "index.js",
+    "scripts": {
+        "dev": "NODE_ENV=development gulp",
+        "build": "NODE_ENV=development gulp prod",
+        "prod": "NODE_ENV=production gulp prod"
+    },
+    "author": "Stanislav Reva",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/core": "^7.7.7",
+        "@babel/preset-env": "^7.7.7",
+        "babel-loader": "^8.0.6",
+        "browser-sync": "^2.26.7",
+        "gulp": "^4.0.2",
+        "gulp-autoprefixer": "^7.0.1",
+        "gulp-clean-css": "^4.2.0",
+        "gulp-if": "^3.0.0",
+        "gulp-imagemin": "^6.2.0",
+        "gulp-less": "^4.0.1",
+        "gulp-sourcemaps": "^2.6.5",
+        "webpack-stream": "^5.2.1"
+    },
+    "dependencies": {}
+}

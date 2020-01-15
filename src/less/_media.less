@@ -1,0 +1,11 @@
+@mobile-min: 320px;
+@tablet-min: 768px;
+@desktop-min: 1025px;
+
+@mobile-max: (@tablet-min - 1);
+@tablet-max: (@desktop-min - 1);
+
+@mobile: ~'only screen and (min-width: @{mobile-min}) and (max-width: @{mobile-max})';
+@tablet: ~'only screen and (min-width: @{tablet-min}) and (max-width: @{tablet-max})';
+@noMobile: ~'only screen and (min-width: @{tablet-min})';
+@desktop: ~'only screen and (min-width: @{desktop-min})';
