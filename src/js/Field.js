@@ -1,7 +1,6 @@
 class Field {
     constructor(ctx, settings) {
         this.ctx = ctx;
-        this.cursor = null;
         this.cells = [];
         this.updateSettings(settings);
     }
@@ -42,13 +41,8 @@ class Field {
             .map(row => Array(this.countCol).fill(0));
     }
 
-    updateCursorPosition(cursor) {
-        this.cursor = cursor;
-    }
-
     draw() {
         this.drawCells();
-        this.drawHoverCell();
         this.drawBorders();
     }
 
@@ -58,20 +52,6 @@ class Field {
                 this.drawCell(i, j, this.settings.color.active);
             });
         });
-    }
-
-    drawHoverCell() {
-        if (!this.cursor) {
-            return;
-        }
-
-        const sizeCell = this.settings.size.cell;
-        const x = Math.max(Math.min(this.cursor.x - this.x, this.w), 0);
-        const y = Math.max(Math.min(this.cursor.y - this.y, this.h), 0);
-        const i = Math.floor(Math.max(y - 1, 0) / sizeCell);
-        const j = Math.floor(Math.max(x - 1, 0) / sizeCell);
-
-        this.drawCell(i, j, this.settings.color.hover);
     }
 
     drawBorders() {
