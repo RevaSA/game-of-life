@@ -1,26 +1,20 @@
-class Field {
-    constructor(ctx, settings) {
-        this.ctx = ctx;
-        this.cells = [];
-        this.updateSettings(settings);
-    }
+import Cell from "./Cell";
 
-    updateSettings(settings) {
-        const defaultSettings = {
+class Field {
+    constructor(ctx) {
+        this.settings = {
             size: {
                 cell: 50,
                 cellWithBorder: 20,
                 border: 2
             },
             color: {
-                default: 'black',
-                hover: 'rebeccapurple',
-                active: 'firebrick',
                 border: 'white',
             }
         };
 
-        this.settings = Object.assign(this.settings ? this.settings : defaultSettings, settings);
+        this.ctx = ctx;
+        this.cells = [];
     }
 
     updateSize(width, height) {
@@ -36,9 +30,46 @@ class Field {
     }
 
     updateCells() {
-        this.cells = Array(this.countRow)
-            .fill(null)
-            .map(row => Array(this.countCol).fill(0));
+        this.cells = [];
+
+        for (let i = 0; i < this.countRow; i++) {
+            this.cells.push([]);
+
+            for (let j = 0; j < this.countCol; j++) {
+                const x = this.x + j * this.settings.size.cell;
+                const y = this.y + i * this.settings.size.cell;
+
+                this.cells[i].push(new Cell(this.ctx, x, y, i, j));
+            }
+        }
+
+        for (let i = 0; i < this.countRow; i++) {
+            for (let j = 0; j < this.countCol; j++) {
+                this.cells[i][j].setNeighbors(this.getNeighbors(i, j))
+            }
+        }
+    }
+
+    getNeighbors(rowSource, colSource) {
+        const neighbors = [];
+        let i, j;
+
+        for (i = -1; i <= 1; i++) {
+            for (j = -1; j <= 1; j++) {
+                if (i === 0 && j === 0) {
+                    continue;
+                }
+
+                let row = rowSource + i;
+                let col = colSource + j;
+
+                row = row < 0 ? this.countRow - 1 : row >= this.countRow ? 0 : row;
+                col = col < 0 ? this.countCol - 1 : col >= this.countCol ? 0 : col;
+                neighbors.push(this.cells[row][col]);
+            }
+        }
+
+        return neighbors;
     }
 
     draw() {
@@ -49,7 +80,7 @@ class Field {
     drawCells() {
         this.cells.forEach((row, i) => {
             row.forEach((cell, j) => {
-                this.drawCell(i, j, this.settings.color.active);
+                this.cells[i][j].draw();
             });
         });
     }
@@ -70,16 +101,6 @@ class Field {
             x = this.x + j * this.settings.size.cell;
             this.drawLine(x, this.y, x, this.y + this.h);
         }
-    }
-
-    drawCell(i, j, color) {
-        const ctx = this.ctx;
-        const size = this.settings.size.cell;
-        const x = this.x + j * size;
-        const y = this.y + i * size;
-
-        ctx.fillStyle = color || this.settings.color.default;
-        ctx.fillRect(x, y, size, size);
     }
 
     drawLine(x1, y1, x2, y2) {
