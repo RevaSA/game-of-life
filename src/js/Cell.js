@@ -12,7 +12,6 @@ class Cell {
         this.x = x;
         this.y = y;
         this.alive = Math.random() < 0.1;
-        this.alive = 0;
         this.color = this.settings.color[this.alive ? 'alive' : 'dead'];
         this.neighbors = [];
     }
