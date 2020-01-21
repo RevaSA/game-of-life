@@ -1,22 +1,11 @@
 class Field {
-    constructor(ctx) {
-        this.settings = {
-            size: {
-                cell: 50,
-                cellWithBorder: 20,
-                border: 2
-            },
-            color: {
-                border: 'white',
-            }
-        };
-
+    constructor(ctx, globalSettings) {
         this.ctx = ctx;
-        this.cells = [];
+        this.globalSettings = globalSettings;
     }
 
     updateSize(width, height) {
-        const sizeCell = this.settings.size.cell;
+        const sizeCell = this.globalSettings.size.cell;
 
         this.countCol = Math.floor(width / sizeCell);
         this.countRow = Math.floor(height / sizeCell);
@@ -33,17 +22,17 @@ class Field {
     drawBorders() {
         let i, j, x, y;
 
-        if (this.settings.size.cell < this.settings.size.cellWithBorder) {
+        if (this.globalSettings.size.cell < this.globalSettings.size.cellWithBorder) {
             return;
         }
 
         for (i = 0; i <= this.countRow; i ++) {
-            y = this.y + i * this.settings.size.cell;
+            y = this.y + i * this.globalSettings.size.cell;
             this.drawLine(this.x, y, this.x + this.w, y);
         }
 
         for (j = 0; j <= this.countCol; j ++) {
-            x = this.x + j * this.settings.size.cell;
+            x = this.x + j * this.globalSettings.size.cell;
             this.drawLine(x, this.y, x, this.y + this.h);
         }
     }
@@ -52,8 +41,8 @@ class Field {
         const ctx = this.ctx;
 
         ctx.beginPath();
-        ctx.strokeStyle = this.settings.color.border;
-        ctx.lineWidth = this.settings.size.border;
+        ctx.strokeStyle = this.globalSettings.color.border;
+        ctx.lineWidth = this.globalSettings.size.border;
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
         ctx.stroke();

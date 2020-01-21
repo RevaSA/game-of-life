@@ -1,18 +1,11 @@
 class Cell {
-    constructor(ctx, x, y) {
-        this.settings = {
-            size: 50,
-            color: {
-                dead: 'black',
-                alive: 'firebrick',
-            }
-        };
-
+    constructor(ctx, globalSettings, x, y) {
         this.ctx = ctx;
+        this.globalSettings = globalSettings;
         this.x = x;
         this.y = y;
         this.alive = Math.random() < 0.1;
-        this.color = this.settings.color[this.alive ? 'alive' : 'dead'];
+        this.color = this.globalSettings.color[this.alive ? 'alive' : 'dead'];
         this.neighbors = [];
     }
 
@@ -22,7 +15,7 @@ class Cell {
 
     draw() {
         this.ctx.fillStyle = this.color;
-        this.ctx.fillRect(this.x, this.y, this.settings.size, this.settings.size);
+        this.ctx.fillRect(this.x, this.y, this.globalSettings.size.cell, this.globalSettings.size.cell);
     }
 }
 

@@ -2,22 +2,31 @@ import Field from './Field';
 import Cell from './Cell';
 
 class Game {
-    constructor(settings) {
-        this.cache(settings);
+    constructor(options) {
+        this.globalSettings = {
+            size: {
+                cell: 50,
+                cellWithBorder: 20,
+                border: 2,
+            },
+            color: {
+                dead: 'black',
+                alive: 'firebrick',
+                border: 'white',
+
+            },
+        };
+
+        this.cache(options);
         this.events();
         this.onResize();
         requestAnimationFrame(this.loop.bind(this));
     }
 
-    cache(settings) {
-        this.settings = Object.assign({
-            size: {
-                cell: 50
-            }
-        }, settings);
-        this.canvas = document.querySelector(this.settings.selector);
+    cache(options) {
+        this.canvas = document.querySelector(options.selector);
         this.ctx = this.canvas.getContext('2d');
-        this.field = new Field(this.ctx);
+        this.field = new Field(this.ctx, this.globalSettings);
         this.cells = null;
     }
 
@@ -41,10 +50,10 @@ class Game {
             this.cells.push([]);
 
             for (let j = 0; j < this.field.countCol; j++) {
-                const x = this.field.x + j * this.settings.size.cell;
-                const y = this.field.y + i * this.settings.size.cell;
+                const x = this.field.x + j * this.globalSettings.size.cell;
+                const y = this.field.y + i * this.globalSettings.size.cell;
 
-                this.cells[i].push(new Cell(this.ctx, x, y, i, j));
+                this.cells[i].push(new Cell(this.ctx, this.globalSettings, x, y, i, j));
             }
         }
 
