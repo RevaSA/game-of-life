@@ -4,8 +4,6 @@ import Cell from './Cell';
 class Field {
     constructor(ctx) {
         this.ctx = ctx;
-        this.isDragging = false;
-        this.cellUnderMouse = null;
     }
 
     updateSizes(width, height) {
@@ -16,32 +14,6 @@ class Field {
         this.x = Math.floor((width - this.w) / 2);
         this.y = Math.floor((height - this.h) / 2);
         this.updateCells();
-    }
-
-    toggleDragging() {
-        this.isDragging = !this.isDragging;
-
-        if (!this.isDragging) {
-            this.cellUnderMouse = null;
-        }
-    }
-
-    updateCursor(cursor) {
-        if (!this.isDragging) {
-            return;
-        }
-
-        const x = Math.max(Math.min(cursor.x - this.x, this.w), 0);
-        const y = Math.max(Math.min(cursor.y - this.y, this.h), 0);
-        const row = Math.floor(Math.max(y - 1, 0) / settings.size.cell);
-        const col = Math.floor(Math.max(x - 1, 0) / settings.size.cell);
-
-        if (this.cellUnderMouse && this.cellUnderMouse.row === row && this.cellUnderMouse.col === col) {
-            return;
-        }
-
-        this.cellUnderMouse = this.cells[row][col];
-        this.cellUnderMouse.toggle();
     }
 
     updateCells() {
@@ -120,6 +92,13 @@ class Field {
         for (let i = 0; i < this.countRow; i++) {
             for (let j = 0; j < this.countCol; j++) {
                 this.cells[i][j].draw();
+                this.cells[i][j].update();
+            }
+        }
+
+        for (let i = 0; i < this.countRow; i++) {
+            for (let j = 0; j < this.countCol; j++) {
+                this.cells[i][j].updatePrevious();
             }
         }
 

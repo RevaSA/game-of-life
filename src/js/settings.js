@@ -1,6 +1,7 @@
 export default {
+    probabilityLife: 0.2,
     size: {
-        cell: 50,
+        cell: 10,
         cellWithBorder: 20,
         border: 2,
     },
@@ -8,6 +9,5 @@ export default {
         dead: 'black',
         alive: 'firebrick',
         border: 'white',
-
     },
 }

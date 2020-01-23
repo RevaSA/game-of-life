@@ -7,7 +7,8 @@ class Cell {
         this.col = col;
         this.x = x;
         this.y = y;
-        this.isAlive = false;
+        this.isAlive = Math.random() <= settings.probabilityLife;
+        this.wasAlive =  this.isAlive;
         this.neighbors = [];
     }
 
@@ -15,8 +16,24 @@ class Cell {
         return settings.color[this.isAlive ? 'alive' : 'dead'];
     }
 
-    toggle() {
-        this.isAlive = !this.isAlive;
+    updatePrevious() {
+        this.wasAlive = this.isAlive;
+    }
+
+    update() {
+        const countAliveNeighbors = this.neighbors.reduce((count, cell) => {
+            return cell.wasAlive ? count + 1 : count;
+        }, 0);
+        let isAlive = false;
+
+        if (
+            this.wasAlive && (countAliveNeighbors === 2 || countAliveNeighbors === 3)
+            || !this.wasAlive && countAliveNeighbors === 3
+        ) {
+            isAlive = true;
+        }
+
+        this.isAlive = isAlive;
     }
 
     draw() {
