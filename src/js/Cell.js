@@ -1,17 +1,22 @@
 import settings from './settings';
 
 class Cell {
-    constructor(ctx, x, y) {
+    constructor(ctx, row, col, x, y) {
         this.ctx = ctx;
+        this.row = row;
+        this.col = col;
         this.x = x;
         this.y = y;
-        this.alive = Math.random() < 0.1;
-        this.color = settings.color[this.alive ? 'alive' : 'dead'];
+        this.isAlive = false;
         this.neighbors = [];
     }
 
-    setNeighbors(neighbors) {
-        this.neighbors = neighbors;
+    get color() {
+        return settings.color[this.isAlive ? 'alive' : 'dead'];
+    }
+
+    toggle() {
+        this.isAlive = !this.isAlive;
     }
 
     draw() {

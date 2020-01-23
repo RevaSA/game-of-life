@@ -5,7 +5,7 @@ class Game {
     constructor(options) {
         this.cache(options);
         this.events();
-        this.onResize();
+        this.resize();
         requestAnimationFrame(this.loop.bind(this));
     }
 
@@ -16,10 +16,13 @@ class Game {
     }
 
     events() {
-        window.addEventListener('resize', this.onResize.bind(this));
+        window.addEventListener('resize', this.resize.bind(this));
+        document.addEventListener('mouseup', this.mouseUp.bind(this));
+        this.canvas.addEventListener('mousedown', this.mouseDown.bind(this));
+        this.canvas.addEventListener('mousemove', this.mouseMove.bind(this));
     }
 
-    onResize() {
+    resize() {
         this.w = this.canvas.clientWidth;
         this.h = this.canvas.clientHeight;
         this.canvas.width = this.w;
@@ -27,8 +30,32 @@ class Game {
         this.field.updateSizes(this.w, this.h);
     }
 
+    mouseUp(ev) {
+        if (ev.which !== 1) {
+            return;
+        }
+
+        this.field.toggleDragging();
+    }
+
+    mouseDown(ev) {
+        if (ev.which !== 1) {
+            return;
+        }
+
+        this.field.toggleDragging();
+        this.mouseMove(ev);
+    }
+
+    mouseMove(ev) {
+        this.field.updateCursor({
+            x: ev.clientX,
+            y: ev.clientY
+        });
+    }
+
     loop() {
-        this.field.draw();
+        this.field.update();
         requestAnimationFrame(this.loop.bind(this));
     }
 }

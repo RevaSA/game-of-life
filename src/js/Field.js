@@ -4,6 +4,8 @@ import Cell from './Cell';
 class Field {
     constructor(ctx) {
         this.ctx = ctx;
+        this.isDragging = false;
+        this.cellUnderMouse = null;
     }
 
     updateSizes(width, height) {
@@ -16,6 +18,32 @@ class Field {
         this.updateCells();
     }
 
+    toggleDragging() {
+        this.isDragging = !this.isDragging;
+
+        if (!this.isDragging) {
+            this.cellUnderMouse = null;
+        }
+    }
+
+    updateCursor(cursor) {
+        if (!this.isDragging) {
+            return;
+        }
+
+        const x = Math.max(Math.min(cursor.x - this.x, this.w), 0);
+        const y = Math.max(Math.min(cursor.y - this.y, this.h), 0);
+        const row = Math.floor(Math.max(y - 1, 0) / settings.size.cell);
+        const col = Math.floor(Math.max(x - 1, 0) / settings.size.cell);
+
+        if (this.cellUnderMouse && this.cellUnderMouse.row === row && this.cellUnderMouse.col === col) {
+            return;
+        }
+
+        this.cellUnderMouse = this.cells[row][col];
+        this.cellUnderMouse.toggle();
+    }
+
     updateCells() {
         this.cells = [];
 
@@ -26,13 +54,13 @@ class Field {
                 const x = this.x + j * settings.size.cell;
                 const y = this.y + i * settings.size.cell;
 
-                this.cells[i].push(new Cell(this.ctx, x, y, i, j));
+                this.cells[i].push(new Cell(this.ctx, i, j, x, y));
             }
         }
 
         for (let i = 0; i < this.countRow; i++) {
             for (let j = 0; j < this.countCol; j++) {
-                this.cells[i][j].setNeighbors(this.getNeighbors(i, j))
+                this.cells[i][j].neighbors  = this.getNeighbors(i, j);
             }
         }
     }
@@ -57,19 +85,6 @@ class Field {
         }
 
         return neighbors;
-    }
-
-    drawCells() {
-        for (let i = 0; i < this.countRow; i++) {
-            for (let j = 0; j < this.countCol; j++) {
-                this.cells[i][j].draw();
-            }
-        }
-    }
-
-    draw() {
-        this.drawCells();
-        this.drawBorders();
     }
 
     drawBorders() {
@@ -99,6 +114,16 @@ class Field {
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
         ctx.stroke();
+    }
+
+    update() {
+        for (let i = 0; i < this.countRow; i++) {
+            for (let j = 0; j < this.countCol; j++) {
+                this.cells[i][j].draw();
+            }
+        }
+
+        this.drawBorders();
     }
 }
 
