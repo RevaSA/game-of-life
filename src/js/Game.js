@@ -1,4 +1,3 @@
-import settings from './settings';
 import Field from './Field';
 
 class Game {
@@ -27,9 +26,13 @@ class Game {
         this.field.updateSizes(this.w, this.h);
     }
 
-    loop() {
+    step() {
         this.ctx.clearRect(0, 0, this.w, this.h);
         this.field.update();
+    }
+
+    loop() {
+        this.step();
         requestAnimationFrame(this.loop.bind(this));
     }
 }

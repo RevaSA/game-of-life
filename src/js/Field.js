@@ -32,7 +32,7 @@ class Field {
 
         for (let i = 0; i < this.countRow; i++) {
             for (let j = 0; j < this.countCol; j++) {
-                this.cells[i][j].neighbors  = this.getNeighbors(i, j);
+                this.cells[i][j].neighbors = this.getNeighbors(i, j);
             }
         }
     }
