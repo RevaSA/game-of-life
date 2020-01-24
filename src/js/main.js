@@ -1,3 +1,3 @@
 import Game from './Game';
 
-document.addEventListener("DOMContentLoaded", () => new Game({ selector: '#canvas' }));
+window.addEventListener('load', () => new Game({ selector: '#canvas' }));
