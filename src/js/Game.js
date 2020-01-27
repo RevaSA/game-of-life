@@ -16,6 +16,9 @@ class Game {
 
     events() {
         window.addEventListener('resize', this.resize.bind(this));
+        document.addEventListener('mouseup', this.mouseUp.bind(this));
+        this.canvas.addEventListener('mousedown', this.mouseDown.bind(this));
+        this.canvas.addEventListener('mousemove', this.mouseMove.bind(this));
     }
 
     resize() {
@@ -24,6 +27,26 @@ class Game {
         this.canvas.width = this.w;
         this.canvas.height = this.h;
         this.field.updateSizes(this.w, this.h);
+    }
+
+    mouseUp(ev) {
+        if (ev.which === 1) {
+            this.field.toggleDragging();
+        }
+    }
+
+    mouseDown(ev) {
+        if (ev.which === 1) {
+            this.field.toggleDragging();
+            this.mouseMove(ev);
+        }
+    }
+
+    mouseMove(ev) {
+        this.field.updateCursor({
+            x: ev.clientX,
+            y: ev.clientY
+        });
     }
 
     step() {

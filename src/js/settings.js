@@ -1,5 +1,5 @@
 export default {
-    probabilityLife: 0.2,
+    probabilityLife: 0.1,
     size: {
         cell: 5,
         cellWithBorder: 20,
