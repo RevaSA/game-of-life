@@ -9,7 +9,7 @@
         "prod": "NODE_ENV=production gulp prod"
     },
     "author": "Stanislav Reva",
-    "license": "ISC",
+    "license": "MIT",
     "devDependencies": {
         "@babel/core": "^7.7.7",
         "@babel/preset-env": "^7.7.7",
