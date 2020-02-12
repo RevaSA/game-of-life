@@ -8,8 +8,16 @@
         "build": "NODE_ENV=development gulp prod",
         "prod": "NODE_ENV=production gulp prod"
     },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/RevaSA/game-of-life.git"
+    },
     "author": "Stanislav Reva",
     "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/RevaSA/game-of-life/issues"
+    },
+    "homepage": "https://github.com/RevaSA/game-of-life#readme",
     "devDependencies": {
         "@babel/core": "^7.7.7",
         "@babel/preset-env": "^7.7.7",
